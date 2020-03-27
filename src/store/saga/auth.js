@@ -2,7 +2,9 @@ import { push } from 'connected-react-router';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import * as types from '../actionTypes/auth';
 import { loginSuccess, loginFailed } from '../actions/auth';
-
+import { login } from '../../apis/auth';
+import { STATUS_CODE } from '../../constants';
+import axiosService from '../../lib/axiosService';
 
 function* processLogin({ payload }) {
   try {
@@ -13,16 +15,14 @@ function* processLogin({ payload }) {
     });
     const { data, status } = resp;
     if (status === STATUS_CODE.SUCCESS) {
-      yield put(loginSuccess(data));
-      const { token } = data;
-      axiosService.setHeader('Authorization', `Bearer ${token}`);
-      localStorage.setItem('TOKEN', token);
-      yield put(push('/'));
+      yield put(loginSuccess(data.data));
+      const { accessToken } = data.data;
+      localStorage.setItem(process.env.TOKEN, accessToken);
+      yield put(push('/dashboard'));
     }
   } catch (error) {
-    // const { response } = error;
-    // const { data, status } = response;
-    const errorString = 'email or password incorrect';
+    const { response } = error;
+    const errorString = response.data.message;
     yield put(loginFailed(errorString));
   }
 }

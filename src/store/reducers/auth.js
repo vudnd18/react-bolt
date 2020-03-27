@@ -2,7 +2,7 @@ import * as types from '../actionTypes/auth';
 
 const initialState = {
   data: null,
-  error: '',
+  errorLogin: '',
   loading: false,
 };
 
@@ -11,6 +11,7 @@ const reducer = (state = initialState, action) => {
     case types.LOGIN:
       return {
         ...state,
+        errorLogin: '',
         loading: true,
       };
     case types.LOGIN_SUCCESS: {
@@ -18,7 +19,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         data,
-        error: '',
+        errorLogin: '',
         loading: false,
       };
     }
@@ -26,7 +27,7 @@ const reducer = (state = initialState, action) => {
       const { error } = action.payload;
       return {
         ...state,
-        error,
+        errorLogin: error,
         loading: false,
       };
     }

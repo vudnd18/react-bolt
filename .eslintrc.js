@@ -27,13 +27,6 @@ module.exports = {
 			jsx: true
 		}
 	},
-	// settings: {
-	// 	'import/resolver': {
-	// 		webpack: {
-	// 			config: path.join(__dirname, 'config', 'webpack.base.config.js'),
-	// 		},
-	// 	},
-	// },
 	rules: {
 		"indent": ["error", 2, { "SwitchCase": 1 }],
 		"no-shadow": [0, {"builtinGlobals": false, "hoist": "functions", "allow": []}],
@@ -50,7 +43,7 @@ module.exports = {
 		'no-plusplus': 'off',
 		'space-before-function-paren': 0, // Incompatible with prettier
 
-		'max-len': ['error', 120, 2, { ignoreUrls: true, }], // airbnb is allowing some edge cases
+		'max-len': ['error', 260, 2, { ignoreUrls: true, }], // airbnb is allowing some edge cases
 		'no-console': 'error', // airbnb is using warn
 		'no-alert': 'error', // airbnb is using warn
 
@@ -87,6 +80,9 @@ module.exports = {
 			  }
 			}
 		],
-		"operator-linebreak": ["error", "after", { "overrides": { "?": "ignore", ":": "ignore" }}]
+		"operator-linebreak": ["error", "after", { "overrides": { "?": "ignore", ":": "ignore" }}],
+		"react/jsx-props-no-spreading": "off",
+		"no-unused-expressions": ["error", { "allowShortCircuit": true }],
+		"no-use-before-define": ["off", { "functions": false, "classes": false }]
 	},
 };
