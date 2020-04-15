@@ -1,7 +1,13 @@
 import React from 'react';
+import Title from '../../components/Title';
 
 function Dashboard() {
-  return <div>Dashboard</div>;
+  return (
+    <>
+      <Title name="Dashboard" />
+      <div>Dashboard</div>
+    </>
+  );
 }
 
 export default Dashboard;

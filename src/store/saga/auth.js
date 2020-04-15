@@ -15,9 +15,14 @@ function* processLogin({ payload }) {
     });
     const { data, status } = resp;
     if (status === STATUS_CODE.SUCCESS) {
-      yield put(loginSuccess(data.data));
-      const { accessToken } = data.data;
+      yield put(loginSuccess(data));
+      const { accessToken, refreshToken, tokenLife } = data;
+      const tokenExpired = new Date();
+      tokenExpired.setSeconds(tokenExpired.getSeconds() + tokenLife);
       localStorage.setItem(process.env.TOKEN, accessToken);
+      localStorage.setItem(process.env.REFRESH_TOKEN, refreshToken);
+      localStorage.setItem(process.env.TOKEN_EXPIRED, tokenExpired);
+      axiosService.setHeader('Authorization', `Bearer ${accessToken}`);
       yield put(push('/dashboard'));
     }
   } catch (error) {

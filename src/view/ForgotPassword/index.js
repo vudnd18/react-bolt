@@ -1,19 +1,16 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import * as Icon from 'react-feather';
-import useForm from '../../hooks/useForm';
 import { forgotPassword } from '../../apis/auth';
-import TextInput from '../../components/Input/TextInput';
-import ButtonSubmit from '../../components/ButtonSubmit';
-import forgotPasswordModel from '../../FomModel/forgotPasswordModel';
+import model from './model';
+import FormPanel from '../../components/FormPanel';
 
 function ForgotPassword() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
-  const Components = { TextInput };
   const submitCallback = async () => {
-    const email = inputs[0].value;
+    const email = model[0].value;
     setError('');
     setIsLoading(true);
     try {
@@ -28,14 +25,7 @@ function ForgotPassword() {
     }
     setIsLoading(false);
   };
-  const [inputs, setInputs, setSubmit] = useForm(forgotPasswordModel, submitCallback);
-  const capitalize = expression => {
-    return expression.charAt(0).toUpperCase() + expression.slice(1);
-  };
-  const renderInput = input => {
-    const Component = Components[`${capitalize(input.type)}Input`];
-    return <Component key={input.name} setInputs={setInputs} {...input} />;
-  };
+
   return (
     <div className="content content-fixed content-auth-alt">
       <div className="container d-flex justify-content-center ">
@@ -52,13 +42,12 @@ function ForgotPassword() {
           {isSuccess ? (
             ''
           ) : (
-            <form className="" onSubmit={setSubmit}>
-              <div className="wd-100p d-flex flex-column flex-sm-row">
-                {inputs.map(input => renderInput(input))}
-              </div>
-              {error !== '' ? <div className="text-danger mg-b-15">{error}</div> : ''}
-              <ButtonSubmit name="Send Email" loading={isLoading} />
-            </form>
+            <FormPanel
+              submitCallback={submitCallback}
+              model={model}
+              errorSubmit={error}
+              loading={isLoading}
+            />
           )}
           <div className="tx-14 mg-t-5 tx-center">
             <Icon.ChevronLeft size={14} />

@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import Loader from '../Loader';
 import { privateRoutes, publicRoutes } from './RouterConstant';
 import PrivateRoutes from './PrivateRoutes';
+import PageNotFound from '../../view/PageNotFound';
+import AdminLayout from '../AdminLayout';
 
 function renderAdminRoutes() {
   let xhtml = null;
@@ -12,8 +14,8 @@ function renderAdminRoutes() {
       <PrivateRoutes
         component={route.component}
         exact={route.exact}
-        key={route.path}
         path={route.path}
+        key={route.path}
       />
     );
   });
@@ -29,7 +31,8 @@ function Routes() {
             <route.component />
           </Route>
         ))}
-        {renderAdminRoutes()}
+        <AdminLayout>{renderAdminRoutes()}</AdminLayout>
+        <Route path="*" component={PageNotFound} />
         <Redirect to="/dashboard" />
       </Switch>
     </Suspense>

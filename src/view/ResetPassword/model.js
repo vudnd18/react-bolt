@@ -1,6 +1,6 @@
-import { checkAtLeastLength, recheckSameString } from '../lib/inputValidater';
+import { checkAtLeastLength, recheckSameString } from '../../lib/inputValidater';
 
-const resetPasswordModel = [
+const model = [
   {
     name: 'password',
     label: 'New password',
@@ -23,7 +23,7 @@ const resetPasswordModel = [
       {
         id: 're-password',
         isValidFun: expression => {
-          const password = resetPasswordModel[0].value;
+          const password = model[0].value;
           return recheckSameString(expression, password);
         },
         alert: 'Password not match',
@@ -32,4 +32,4 @@ const resetPasswordModel = [
   },
 ];
 
-export default resetPasswordModel;
+export default model;

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { convertSlug } from '../lib/inputParser';
 
 const useForm = (initModel, submitCallback) => {
   const [inputs, setInputs] = useState(initModel);
@@ -11,7 +12,28 @@ const useForm = (initModel, submitCallback) => {
         parseInput(i);
         validateInput(i);
       }
+      if (Object.prototype.hasOwnProperty.call(i, 'slug')) {
+        const slug = inputs.find(input => input.name === i.slug);
+        slug.value = convertSlug(i.value);
+      }
     });
+    setInputs([...inputs]);
+  };
+
+  const handleChangeTextArea = (name, value) => {
+    const textarea = inputs.find(input => input.name === name);
+    textarea.value = value;
+    setInputs([...inputs]);
+  };
+
+  const handleUploadListImage = (name, value) => {
+    const images = inputs.find(input => input.name === name);
+    if (Object.prototype.hasOwnProperty.call(images, 'value')) {
+      const previous = images.value;
+      images.value = [...previous, ...value];
+    } else {
+      images.value = value;
+    }
     setInputs([...inputs]);
   };
 
@@ -19,6 +41,13 @@ const useForm = (initModel, submitCallback) => {
     e && e.preventDefault();
     inputs.forEach(i => validateInput(i));
     inputs.some(i => i.alert) ? setInputs([...inputs]) : submitCallback();
+  };
+
+  const deleteImage = (name, value) => {
+    const images = inputs.find(input => input.name === name);
+    const removeImage = images.value.filter(image => image !== value);
+    images.value = removeImage;
+    setInputs([...inputs]);
   };
 
   const parseInput = input =>
@@ -33,7 +62,14 @@ const useForm = (initModel, submitCallback) => {
     input.alert = alert;
   };
 
-  return [inputs, handleChange, handleSubmit];
+  return [
+    inputs,
+    handleChange,
+    handleSubmit,
+    handleChangeTextArea,
+    handleUploadListImage,
+    deleteImage,
+  ];
 };
 
 export default useForm;

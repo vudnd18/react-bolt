@@ -1,22 +1,19 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import useForm from '../../hooks/useForm';
-import TextInput from '../../components/Input/TextInput';
-import PasswordInput from '../../components/Input/PasswordInput';
-import ButtonSubmit from '../../components/ButtonSubmit';
-import signupModel from '../../FomModel/signupModel';
+import model from './model';
 import { registry } from '../../apis/auth';
 import SignupSuccess from './SignupSuccess';
+import FormPanel from '../../components/FormPanel';
 
 function Signup() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
   const submitCallback = async () => {
-    const name = inputs[0].value;
-    const email = inputs[1].value;
-    const phone = inputs[2].value;
-    const password = inputs[3].value;
+    const name = model[0].value;
+    const email = model[1].value;
+    const phone = model[2].value;
+    const password = model[3].value;
     setError('');
     setIsLoading(true);
     try {
@@ -30,15 +27,6 @@ function Signup() {
     }
     setIsLoading(false);
   };
-  const [inputs, setInputs, setSubmit] = useForm(signupModel, submitCallback);
-  const capitalize = expression => {
-    return expression.charAt(0).toUpperCase() + expression.slice(1);
-  };
-  const Components = { TextInput, PasswordInput };
-  const renderInput = input => {
-    const Component = Components[`${capitalize(input.type)}Input`];
-    return <Component key={input.name} setInputs={setInputs} {...input} />;
-  };
   return isSuccess ? (
     <SignupSuccess />
   ) : (
@@ -51,11 +39,12 @@ function Signup() {
               <p className="tx-color-03 tx-16 mg-b-40">
                 It&apos;s free to signup and only takes a minute.
               </p>
-              <form onSubmit={setSubmit}>
-                {inputs.map(input => renderInput(input))}
-                {error !== '' ? <div className="text-danger mg-b-15">{error}</div> : ''}
-                <ButtonSubmit name="Sign Up" loading={isLoading} />
-              </form>
+              <FormPanel
+                submitCallback={submitCallback}
+                model={model}
+                errorSubmit={error}
+                loading={isLoading}
+              />
               <div className="tx-13 mg-t-20 tx-center">
                 Already have an account? <Link to="login">Log In</Link>
               </div>

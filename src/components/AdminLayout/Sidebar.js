@@ -8,7 +8,7 @@ function Sidebar() {
   const [stateSidebar, setStateSidebar] = useState('');
   const history = useHistory();
   const logOut = () => {
-    axiosService.setHeader('Authorization', '');
+    axiosService.removeHeader('Authorization');
     localStorage.removeItem(process.env.TOKEN);
     history.push('/login');
   };
@@ -26,11 +26,13 @@ function Sidebar() {
     xhtml = privateRoutes.map(router => {
       const active = activeSiderbar(path, router.path);
       return (
-        <li className={`nav-item ${active}`} key={router.id}>
-          <Link className="nav-link" to={router.path}>
-            {router.name}
-          </Link>
-        </li>
+        router.child ?? (
+          <li className="nav-item" key={router.id}>
+            <Link className={`nav-link ${active}`} to={router.path}>
+              {router.name}
+            </Link>
+          </li>
+        )
       );
     });
     return xhtml;
@@ -43,14 +45,20 @@ function Sidebar() {
     }
     return '';
   };
+  const hideSidebar = () => {
+    document.body.classList = '';
+  };
   return (
-    <aside className={`aside aside-fixed ${stateSidebar}`}>
-      <div className="aside-header">
-        <button type="button" className="link-button" onClick={() => toggleSidebar()}>
-          <Icon.Menu size={16} />
-        </button>
+    <div className={`sidebar sidebar-fixed sidebar-components ${stateSidebar}`}>
+      <div className="sidebar-header ">
+        <div className="d-flex justify-content-between w-100">
+          <h5>Menu</h5>
+          <button type="button" className="link-button" onClick={() => hideSidebar()}>
+            <Icon.X size={16} />
+          </button>
+        </div>
       </div>
-      <div className="aside-body">
+      <div className="sidebar-body">
         <div className="aside-loggedin">
           <div className="d-flex align-items-center justify-content-start">
             <button type="button" className="link-button avatar" href="">
@@ -63,12 +71,9 @@ function Sidebar() {
             </div>
           </div>
         </div>
-        <ul className="nav nav-aside">
-          <li className="nav-label">Dashboard</li>
-          {renderPrivateRoutes()}
-        </ul>
+        <ul className="sidebar-nav">{renderPrivateRoutes()}</ul>
       </div>
-    </aside>
+    </div>
   );
 }
 

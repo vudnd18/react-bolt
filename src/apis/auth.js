@@ -3,7 +3,6 @@ import axiosService from '../lib/axiosService';
 const url = `${process.env.API_ENDPOINT}`;
 
 export const login = data => {
-  axiosService.removeHeader('Authorization');
   return axiosService.post(`${url}/login`, data);
 };
 

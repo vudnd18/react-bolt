@@ -1,4 +1,4 @@
-import { parseOnlyLetterAndSpace, parseLength } from '../lib/inputParser';
+import { parseOnlyLetterAndSpace, parseLength } from '../../lib/inputParser';
 import {
   checkAtLeastLength,
   checkEmailPattern,
@@ -6,9 +6,9 @@ import {
   checkIsTrue,
   checkPhoneNumberPattern,
   recheckSameString,
-} from '../lib/inputValidater';
+} from '../../lib/inputValidater';
 
-const signupModel = [
+const model = [
   {
     name: 'name',
     label: 'Name',
@@ -81,7 +81,7 @@ const signupModel = [
       {
         id: 're-password',
         isValidFun: expression => {
-          const password = signupModel[3].value;
+          const password = model[3].value;
           return recheckSameString(expression, password);
         },
         alert: 'Password not match',
@@ -90,4 +90,4 @@ const signupModel = [
   },
 ];
 
-export default signupModel;
+export default model;

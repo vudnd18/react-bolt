@@ -2,11 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ValidationAlert from './ValidationAlert';
 
-function TextInput({ name, label, type, value, alert, setInputs, placeholder, className }) {
+function TextInput({
+  name,
+  label,
+  type,
+  value,
+  alert,
+  disabled = false,
+  setInputs,
+  placeholder,
+  className,
+  classNameLabel = '',
+  classNameInput = '',
+}) {
   return (
-    <div className="form-group">
+    <div className="form-group row">
       {label !== '' ? (
-        <label htmlFor={name} className="">
+        <label htmlFor={name} className={classNameLabel}>
           {label}
         </label>
       ) : (
@@ -17,8 +29,10 @@ function TextInput({ name, label, type, value, alert, setInputs, placeholder, cl
         name={name}
         type={type}
         value={value || ''}
+        disabled={disabled}
         onChange={setInputs}
-        className={`form-control ${alert ? ' parsley-error' : ''} ${className || ''} `}
+        className={`form-control ${alert ? ' parsley-error' : ''} ${className ||
+          ''} ${classNameInput}`}
         placeholder={placeholder || ''}
       />
       <ValidationAlert content={alert} />
@@ -35,6 +49,9 @@ TextInput.propTypes = {
   placeholder: PropTypes.string,
   className: PropTypes.string,
   setInputs: PropTypes.func,
+  classNameLabel: PropTypes.string,
+  classNameInput: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 export default TextInput;

@@ -83,6 +83,7 @@ module.exports = {
 		"operator-linebreak": ["error", "after", { "overrides": { "?": "ignore", ":": "ignore" }}],
 		"react/jsx-props-no-spreading": "off",
 		"no-unused-expressions": ["error", { "allowShortCircuit": true }],
-		"no-use-before-define": ["off", { "functions": false, "classes": false }]
+		"no-use-before-define": ["off", { "functions": false, "classes": false }],
+		"jsx-a11y/alt-text": ["off"]
 	},
 };

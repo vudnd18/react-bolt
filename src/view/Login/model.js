@@ -1,12 +1,13 @@
-import { parseOnlyLetterAndSpace, parseLength } from '../lib/inputParser';
+import React from 'react';
+import { parseOnlyLetterAndSpace, parseLength } from '../../lib/inputParser';
 import {
   checkAtLeastLength,
   checkEmailPattern,
   checkIsFilled,
   checkIsTrue,
-} from '../lib/inputValidater';
+} from '../../lib/inputValidater';
 
-const loginModel = [
+const model = [
   {
     name: 'email',
     label: 'Email',
@@ -40,4 +41,4 @@ const loginModel = [
   },
 ];
 
-export default loginModel;
+export default model;

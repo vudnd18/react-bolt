@@ -2,19 +2,16 @@ import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import * as Icon from 'react-feather';
 import { resetPassword } from '../../apis/auth';
-import PasswordInput from '../../components/Input/PasswordInput';
-import resetPasswordModel from '../../FomModel/resetPasswordModel';
-import useForm from '../../hooks/useForm';
-import ButtonSubmit from '../../components/ButtonSubmit';
+import model from './model';
+import FormPanel from '../../components/FormPanel';
 
 function ResetPassword() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
-  const Components = { PasswordInput };
   const { hashId } = useParams();
   const submitCallback = async () => {
-    const password = inputs[0].value;
+    const password = model[0].value;
     setError('');
     setIsLoading(true);
     try {
@@ -28,14 +25,6 @@ function ResetPassword() {
       setError(response.data.message);
     }
     setIsLoading(false);
-  };
-  const [inputs, setInputs, setSubmit] = useForm(resetPasswordModel, submitCallback);
-  const capitalize = expression => {
-    return expression.charAt(0).toUpperCase() + expression.slice(1);
-  };
-  const renderInput = input => {
-    const Component = Components[`${capitalize(input.type)}Input`];
-    return <Component key={input.name} setInputs={setInputs} {...input} />;
   };
   return (
     <div className="content content-fixed content-auth-alt">
@@ -55,11 +44,14 @@ function ResetPassword() {
           {isSuccess ? (
             ''
           ) : (
-            <form className="wd-70p" onSubmit={setSubmit}>
-              {inputs.map(input => renderInput(input))}
-              {error !== '' ? <div className="text-danger mg-b-15">{error}</div> : ''}
-              <ButtonSubmit name="Change Password" loading={isLoading} />
-            </form>
+            <div className="wd-80p wd-sm-300">
+              <FormPanel
+                submitCallback={submitCallback}
+                model={model}
+                errorSubmit={error}
+                loading={isLoading}
+              />
+            </div>
           )}
           <div className="tx-14 mg-t-5 tx-center">
             <Icon.ChevronLeft size={14} />

@@ -3,7 +3,7 @@ import Proptypes from 'prop-types';
 
 function ButtonSubmit({ name, className, loading }) {
   return (
-    <button className="btn btn-brand-02 btn-block" type="submit" disabled={loading}>
+    <button className={`btn btn-brand-02 btn-block ${className}`} type="submit" disabled={loading}>
       {!loading ? (
         <span>{name}</span>
       ) : (

@@ -1,6 +1,6 @@
-import { checkEmailPattern, checkIsFilled } from '../lib/inputValidater';
+import { checkEmailPattern, checkIsFilled } from '../../lib/inputValidater';
 
-const forgotPasswordModel = [
+const model = [
   {
     name: 'email',
     label: '',
@@ -22,4 +22,4 @@ const forgotPasswordModel = [
   },
 ];
 
-export default forgotPasswordModel;
+export default model;
